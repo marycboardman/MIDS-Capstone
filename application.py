@@ -59,7 +59,7 @@ logo = dbc.Navbar(
             ),
         ]
     ),
-    color="#0AD287",
+    color="#145bce",
     dark=True,
     className="mb-5",
 )
