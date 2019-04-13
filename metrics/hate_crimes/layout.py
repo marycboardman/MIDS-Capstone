@@ -21,8 +21,9 @@ def create_opts(unique_values):
 
 df = pd.read_csv('data/cities_forecasts.csv') 
 city_opts = create_opts(df.city.unique().tolist())
-grade_opts = create_opts(df.grade.unique().tolist())
 state_opts = create_opts(df.state.unique().tolist())
+grade_opts = create_opts(df.grade.unique().tolist())
+trend_opts = create_opts(df.trend.unique().tolist())
 
 def aggr_func(groups, count, df):
     df1 = pd.DataFrame(df.groupby(groups)[count].median()).reset_index()
@@ -72,6 +73,16 @@ filters = dbc.Container([
                         clearable=False
                     )
                 ]),
+            
+                html.Div([
+                    html.Label('Trend:'),
+                    dcc.Dropdown(
+                        id='trend-select',
+                        options=trend_opts,
+                        value='All',
+                        clearable=False
+                    )
+                ]),
             ])
 
 @app.callback(
@@ -79,20 +90,24 @@ filters = dbc.Container([
     [Input('hate-crimes-compare-all', 'values'),
      Input('city-select', 'value'),
      Input('state-select','value'),
-     Input('grade-select','value')])
+     Input('grade-select','value'),
+     Input('trend-select','value')])
 
-def update_figure(compare_all_list, selected_city, selected_state, selected_grade):
+def update_figure(compare_all_list, selected_city, selected_state, selected_grade, selected_trend):
     filtered_df = df.copy()
     cohort_name = ''
     if selected_city != 'All':
         filtered_df = filtered_df[filtered_df['city']==selected_city]
-        cohort_name = cohort_name + selected_city.capitalize() + ' '
-    if selected_grade != 'All':
-        filtered_df = filtered_df[filtered_df['grade']==selected_grade]
-        cohort_name = cohort_name + selected_grade.capitalize() + ' '
+        cohort_name = cohort_name + 'City:' + selected_city.upper() + ' '
     if selected_state != 'All':
         filtered_df = filtered_df[filtered_df['state']==selected_state]
-        cohort_name = cohort_name + selected_state.capitalize() + ' '
+        cohort_name = cohort_name + 'State:' + selected_state.upper() + ' '
+    if selected_grade != 'All':
+        filtered_df = filtered_df[filtered_df['grade']==selected_grade]
+        cohort_name = cohort_name + 'Grade:' + selected_grade.upper() + ' '
+    if selected_trend != 'All':
+        filtered_df = filtered_df[filtered_df['trend']==selected_trend]
+        cohort_name = cohort_name + 'Trend:' + selected_trend.capitalize() + ' '
     filtered_df = aggr_func('ds','yhat', filtered_df)
     full_df = aggr_func('ds','yhat', df)
 
@@ -100,13 +115,15 @@ def update_figure(compare_all_list, selected_city, selected_state, selected_grad
         x=filtered_df['ds'], 
         y=filtered_df['yhat'], 
         mode='lines',
-        name='Filtered Results')
+        name='Filtered Results',
+        text=[cohort_name],
+        textposition='top center')
 
     trace2 = go.Scatter(
         x=full_df['ds'], 
         y=full_df['yhat'], 
         mode='lines',
-        name = 'All (median)')
+        name = 'All (Median)')
 
     if len(compare_all_list)==1:
         traces = [trace1, trace2]
