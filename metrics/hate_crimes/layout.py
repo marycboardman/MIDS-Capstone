@@ -10,9 +10,11 @@ import os
 from init import app
 
 def create_opts(unique_values):
-    unique_values.append('All')
+    cleanlist = [x for x in unique_values if str(x) != 'nan']
+    cleanlist.sort()
+    cleanlist.insert(0,'All')
     opts = []
-    for s in unique_values:
+    for s in cleanlist:
         val = {'label':s, 'value':s}
         opts.append(val)
     return opts
@@ -23,11 +25,11 @@ grade_opts = create_opts(df.grade.unique().tolist())
 state_opts = create_opts(df.state.unique().tolist())
 
 def aggr_func(groups, count, df):
-    df1 = pd.DataFrame(df.groupby(groups)[count].mean()).reset_index()
+    df1 = pd.DataFrame(df.groupby(groups)[count].median()).reset_index()
     return df1
 
 graph_layout =  dbc.Col([
-                    html.H3("Monthly Hate Crimes by Year"),
+                    html.H3("Monthly Hate Crimes"),
                     dcc.Graph(
                         id='hate-crimes-graph'
                     )
@@ -47,7 +49,8 @@ filters = dbc.Container([
                     dcc.Dropdown(
                         id='city-select',
                         options=city_opts,
-                        value='All'
+                        value='All',
+                        clearable=False
                     ),
                 ]),
                 html.Div([
@@ -55,7 +58,8 @@ filters = dbc.Container([
                     dcc.Dropdown(
                         id='state-select',
                         options=state_opts,
-                        value='All'
+                        value='All',
+                        clearable=False
                     ),
                 ]),
 
@@ -64,7 +68,8 @@ filters = dbc.Container([
                     dcc.Dropdown(
                         id='grade-select',
                         options=grade_opts,
-                        value='All'
+                        value='All',
+                        clearable=False
                     )
                 ]),
             ])
@@ -101,7 +106,7 @@ def update_figure(compare_all_list, selected_city, selected_state, selected_grad
         x=full_df['ds'], 
         y=full_df['yhat'], 
         mode='lines',
-        name = 'All')
+        name = 'All (median)')
 
     if len(compare_all_list)==1:
         traces = [trace1, trace2]
