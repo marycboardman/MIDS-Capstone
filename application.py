@@ -34,13 +34,16 @@ all_lay = dbc.Container(
 dropdown = dbc.DropdownMenu(
     children=[
         dbc.DropdownMenuItem("Hate Crimes over Time", href='/'),
+        dbc.DropdownMenuItem("Abstract and Instructions", href='/instructions'),
         dbc.DropdownMenuItem("Overview of Problem", href='/overview'),
         dbc.DropdownMenuItem("Methodology: Ratings", href='/ratings'),
         dbc.DropdownMenuItem("Methodology: Time Series", href='/time-series'),
         dbc.DropdownMenuItem("Data Sources", href='/sources'),
         dbc.DropdownMenuItem("Recommendations", href='/recommendations'),
-        dbc.DropdownMenuItem("Conclusions", href='/conclusions')
-    ],
+        dbc.DropdownMenuItem("Results: All Cities", href='/allcities'),
+        dbc.DropdownMenuItem("Conclusions", href='/conclusions'),
+        dbc.DropdownMenuItem("Acknowledgements", href='/acknowledgements')
+		],
     nav=True,
     in_navbar=True,
     label="Menu",
@@ -49,6 +52,8 @@ dropdown = dbc.DropdownMenu(
 logo = dbc.Navbar(
     dbc.Container(
         [
+        dbc.Col(
+            [
             dbc.NavbarToggler(id="navbar-toggler2"),
             dbc.Collapse(
                 dbc.Nav(
@@ -56,6 +61,17 @@ logo = dbc.Navbar(
                 ),
                 id="navbar-collapse2",
                 navbar=True,
+            ),
+            ],
+            align="start",
+			width=2,
+            ),
+        dbc.Col(
+            [
+            html.H3('Doxing and Hate Crimes: Identifying Risk at the Intersection', style={'color': 'white'})
+            ],
+            align="center",
+			width=10
             ),
         ]
     ),
@@ -90,6 +106,8 @@ def render_page(pathname):
         return all_lay
     elif pathname == '/overview':
         return all_lay.layout
+    elif pathname == '/instructions':
+        return all_lay.layout
     elif pathname == '/ratings':
         return all_lay.layout
     elif pathname == '/time-series':
@@ -98,7 +116,11 @@ def render_page(pathname):
         return all_lay.layout
     elif pathname == '/recommendations':
         return all_lay.layout
+    elif pathname == '/allcities':
+        return all_lay.layout
     elif pathname == '/conclusions':
+        return all_lay.layout
+    elif pathname == '/acknowledgements':
         return all_lay.layout
 
 if __name__ == '__main__':
