@@ -25,7 +25,7 @@ all_lay = dbc.Container(
             ],
             no_gutters=True,
             align='center'
-        ),    
+        ),  
     ],
     className="mt-4",
 )
@@ -33,15 +33,14 @@ all_lay = dbc.Container(
 # make a reuseable dropdown for the different examples
 dropdown = dbc.DropdownMenu(
     children=[
-        dbc.DropdownMenuItem("Hate Crimes over Time", href='/'),
-        dbc.DropdownMenuItem("Abstract and Instructions", href='/instructions'),
-        dbc.DropdownMenuItem("Overview of Problem", href='/overview'),
-        dbc.DropdownMenuItem("Methodology: Ratings", href='/ratings'),
-        dbc.DropdownMenuItem("Methodology: Time Series", href='/time-series'),
-        dbc.DropdownMenuItem("Data Sources", href='/sources'),
+        dbc.DropdownMenuItem("Data Exploration Tool", href='/'),
+        dbc.DropdownMenuItem("Introduction and Overview", href='/introduction'),
+        dbc.DropdownMenuItem("Methodology: Time Series Model", href='/time-series'),
+        dbc.DropdownMenuItem("Methodology: Doxing Risk Assessment", href='/doxing-risk'),
+        dbc.DropdownMenuItem("Data Sources: All Cities", href='/all-cities'),
+        dbc.DropdownMenuItem("Key Insights", href='/key-insights'),
         dbc.DropdownMenuItem("Recommendations", href='/recommendations'),
-        dbc.DropdownMenuItem("Results: All Cities", href='/allcities'),
-        dbc.DropdownMenuItem("Conclusions", href='/conclusions'),
+        dbc.DropdownMenuItem("Author Bios", href='/author-bios'),
         dbc.DropdownMenuItem("Acknowledgements", href='/acknowledgements')
 		],
     nav=True,
@@ -104,21 +103,19 @@ def toggle_navbar_collapse(n, is_open):
 def render_page(pathname):
     if pathname == '/':
         return all_lay
-    elif pathname == '/overview':
-        return all_lay.layout
-    elif pathname == '/instructions':
-        return all_lay.layout
-    elif pathname == '/ratings':
-        return all_lay.layout
+    elif pathname == '/introduction':
+        return hc_lay.intro_layout
     elif pathname == '/time-series':
+        return hc_lay.ts_layout
+    elif pathname == '/doxing-risk':
         return all_lay.layout
-    elif pathname == '/sources':
+    elif pathname == '/all-cities':
+        return hc_lay.allcities_layout
+    elif pathname == '/key-insights':
         return all_lay.layout
     elif pathname == '/recommendations':
         return all_lay.layout
-    elif pathname == '/allcities':
-        return hc_lay.allcities_layout
-    elif pathname == '/conclusions':
+    elif pathname == '/author-bios':
         return all_lay.layout
     elif pathname == '/acknowledgements':
         return all_lay.layout
