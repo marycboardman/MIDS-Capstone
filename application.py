@@ -117,7 +117,7 @@ def render_page(pathname):
     elif pathname == '/recommendations':
         return all_lay.layout
     elif pathname == '/allcities':
-        return all_lay.layout
+        return hc_lay.allcities_layout
     elif pathname == '/conclusions':
         return all_lay.layout
     elif pathname == '/acknowledgements':
