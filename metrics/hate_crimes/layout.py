@@ -1,6 +1,7 @@
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_bootstrap_components as dbc
+import dash_table as dt
 from dash.dependencies import Input, Output
 
 import pandas as pd
@@ -20,6 +21,8 @@ def create_opts(unique_values):
     return opts
 
 df = pd.read_csv('data/cities_forecasts.csv') 
+city_data = pd.read_csv('data/city_data.csv')
+city_data = city_data[['City', 'State', 'Grade', 'Hate Crime Trend', 'Notes', 'Crime Data Source']]
 city_opts = create_opts(df.city.unique().tolist())
 state_opts = create_opts(df.state.unique().tolist())
 grade_opts = create_opts(df.grade.unique().tolist())
@@ -84,6 +87,27 @@ filters = dbc.Container([
                     )
                 ]),
             ])
+
+allcities_layout = html.Div([
+    html.H3('All Cities'),
+    html.Div([
+        dt.DataTable(id='my-datatable',
+        columns=[{'name': i, 'id': i} for i in city_data.columns],
+        data = city_data.to_dict('rows'),
+        style_table={'overflowX': 'scroll'},
+        style_cell={
+            'text-align': 'left',
+            'minWidth': '0px', 'maxWidth': '220px',
+            'whiteSpace': 'normal'
+        },
+        css=[{
+            'selector': '.dash-cell div.dash-cell-value',
+            'rule': 'display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;'
+        }],
+        )
+    ]),
+    html.Div(id='allcities-content'),
+])
 
 @app.callback(
     Output('hate-crimes-graph', 'figure'),
