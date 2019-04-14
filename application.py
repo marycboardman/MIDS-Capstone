@@ -10,6 +10,8 @@ import plotly.graph_objs as go
 from init import app, application
 
 from metrics.hate_crimes import layout as hc_lay
+from metrics.hate_crimes2 import layout as hc_lay2
+from metrics.hate_crimes3 import layout as hc_lay3
 
 all_lay = dbc.Container(
     [
@@ -26,6 +28,32 @@ all_lay = dbc.Container(
             no_gutters=True,
             align='center'
         ),  
+        dbc.Row(
+            [
+                dbc.Col([
+                    hc_lay2.filters
+                    ],
+                    md=4,
+                ),
+
+                hc_lay2.graph_layout,
+            ],
+            no_gutters=True,
+            align='center'
+        ), 
+        dbc.Row(
+            [
+                dbc.Col([
+                    hc_lay3.filters
+                    ],
+                    md=4,
+                ),
+
+                hc_lay3.graph_layout,
+            ],
+            no_gutters=True,
+            align='center'
+        ), 
     ],
     className="mt-4",
 )

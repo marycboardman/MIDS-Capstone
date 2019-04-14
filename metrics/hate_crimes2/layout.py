@@ -35,9 +35,8 @@ def aggr_func(groups, count, df):
     return df1
 
 graph_layout =  dbc.Col([
-                    html.H3("Monthly Hate Crimes by Year"),
                     dcc.Graph(
-                        id='hate-crimes-graph'
+                        id='hate-crimes-graph2'
                     )
                 ]
             )
@@ -45,7 +44,7 @@ graph_layout =  dbc.Col([
 filters = dbc.Container([
                 html.Div([
                     dcc.Checklist(
-                        id = 'hate-crimes-compare-all',
+                        id = 'hate-crimes-compare-all2',
                         options= [{'label': 'Compare to All','value':1}],
                         values = [1]
                     )
@@ -53,7 +52,7 @@ filters = dbc.Container([
                 html.Div([
                     html.Label('City:'),
                     dcc.Dropdown(
-                        id='city-select',
+                        id='city-select2',
                         options=city_opts,
                         value='All',
                         clearable=False
@@ -62,7 +61,7 @@ filters = dbc.Container([
                 html.Div([
                     html.Label('State:'),
                     dcc.Dropdown(
-                        id='state-select',
+                        id='state-select2',
                         options=state_opts,
                         value='All',
                         clearable=False
@@ -72,7 +71,7 @@ filters = dbc.Container([
                 html.Div([
                     html.Label('Grade:'),
                     dcc.Dropdown(
-                        id='grade-select',
+                        id='grade-select2',
                         options=grade_opts,
                         value='All',
                         clearable=False
@@ -82,7 +81,7 @@ filters = dbc.Container([
                 html.Div([
                     html.Label('Trend:'),
                     dcc.Dropdown(
-                        id='trend-select',
+                        id='trend-select2',
                         options=trend_opts,
                         value='All',
                         clearable=False
@@ -91,65 +90,22 @@ filters = dbc.Container([
                 html.Div([
                     html.Label('Population:'),
                     dcc.Dropdown(
-                        id='pop-select',
+                        id='pop-select2',
                         options=pop_opts,
                         value='All'
                     )
                 ]),
             ])
 
-intro_layout = html.Div([
-    dcc.Markdown(dedent('''
-        # Introduction and Overview
-
-        People motivated enough by hate to commit a hate crime have more access than ever before to a potential victim’s home, place of work, and other personal information. This could lead to an increased risk of hate crimes where there is both a growing trend of hate crimes and an increased ability to dox someone. Understanding where this intersection lies is critical to identifying if and where these issues exist. Conversely, identifying best practices can also provide guidance for the municipalities who are missing the mark in terms of victim protection. 
-
-        While there are many possible stakeholders, in this project, we are focusing on elected officials in municipalities as primary stakeholders, with police departments and the FBI as secondary stakeholders. We assume elected officials will be the most responsive to the optics of either low or heightened risk. Police departments may not have the same priorities, as they often have many crimes to investigate with limited resources. Also, while investigating hate crimes is a priority for the FBI, they are a large federal bureaucracy that, by definition, is likely to be more slow-moving than a municipal government. 
-    ''')) 
-])
-
-ts_layout = html.Div([
-    dcc.Markdown(dedent('''
-
-        # Methodology: Time Series Model
-
-        ## This is an <h2> tag
-
-        ###### This is an <h6> tag
-    ''')) 
-])
-
-allcities_layout = html.Div([
-    html.H3('All Cities'),
-    html.Div([
-        dt.DataTable(id='my-datatable',
-        columns=[{'name': i, 'id': i} for i in city_data.columns],
-        data = city_data.to_dict('rows'),
-        style_table={'overflowX': 'scroll'},
-        style_cell={
-            'text-align': 'left',
-            'minWidth': '0px', 'maxWidth': '220px',
-            'whiteSpace': 'normal'
-        },
-        css=[{
-            'selector': '.dash-cell div.dash-cell-value',
-            'rule': 'display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;'
-        }],
-        )
-    ]),
-    html.Div(id='allcities-content'),
-])
-
-
 
 @app.callback(
-    Output('hate-crimes-graph', 'figure'),
-    [Input('hate-crimes-compare-all', 'values'),
-     Input('city-select', 'value'),
-     Input('state-select','value'),
-     Input('grade-select','value'),
-     Input('trend-select','value'),
-     Input('pop-select','value')])
+    Output('hate-crimes-graph2', 'figure'),
+    [Input('hate-crimes-compare-all2', 'values'),
+     Input('city-select2', 'value'),
+     Input('state-select2','value'),
+     Input('grade-select2','value'),
+     Input('trend-select2','value'),
+     Input('pop-select2','value')])
 
 def update_figure(compare_all_list, selected_city, selected_state, selected_grade, selected_trend, selected_pop):
     filtered_df = df.copy()

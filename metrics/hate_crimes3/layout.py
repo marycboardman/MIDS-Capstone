@@ -35,9 +35,8 @@ def aggr_func(groups, count, df):
     return df1
 
 graph_layout =  dbc.Col([
-                    html.H3("Monthly Hate Crimes by Year"),
                     dcc.Graph(
-                        id='hate-crimes-graph'
+                        id='hate-crimes-graph3'
                     )
                 ]
             )
@@ -45,7 +44,7 @@ graph_layout =  dbc.Col([
 filters = dbc.Container([
                 html.Div([
                     dcc.Checklist(
-                        id = 'hate-crimes-compare-all',
+                        id = 'hate-crimes-compare-all3',
                         options= [{'label': 'Compare to All','value':1}],
                         values = [1]
                     )
@@ -53,7 +52,7 @@ filters = dbc.Container([
                 html.Div([
                     html.Label('City:'),
                     dcc.Dropdown(
-                        id='city-select',
+                        id='city-select3',
                         options=city_opts,
                         value='All',
                         clearable=False
@@ -62,7 +61,7 @@ filters = dbc.Container([
                 html.Div([
                     html.Label('State:'),
                     dcc.Dropdown(
-                        id='state-select',
+                        id='state-select3',
                         options=state_opts,
                         value='All',
                         clearable=False
@@ -72,7 +71,7 @@ filters = dbc.Container([
                 html.Div([
                     html.Label('Grade:'),
                     dcc.Dropdown(
-                        id='grade-select',
+                        id='grade-select3',
                         options=grade_opts,
                         value='All',
                         clearable=False
@@ -82,7 +81,7 @@ filters = dbc.Container([
                 html.Div([
                     html.Label('Trend:'),
                     dcc.Dropdown(
-                        id='trend-select',
+                        id='trend-select3',
                         options=trend_opts,
                         value='All',
                         clearable=False
@@ -91,7 +90,7 @@ filters = dbc.Container([
                 html.Div([
                     html.Label('Population:'),
                     dcc.Dropdown(
-                        id='pop-select',
+                        id='pop-select3',
                         options=pop_opts,
                         value='All'
                     )
@@ -143,13 +142,13 @@ allcities_layout = html.Div([
 
 
 @app.callback(
-    Output('hate-crimes-graph', 'figure'),
-    [Input('hate-crimes-compare-all', 'values'),
-     Input('city-select', 'value'),
-     Input('state-select','value'),
-     Input('grade-select','value'),
-     Input('trend-select','value'),
-     Input('pop-select','value')])
+    Output('hate-crimes-graph3', 'figure'),
+    [Input('hate-crimes-compare-all3', 'values'),
+     Input('city-select3', 'value'),
+     Input('state-select3','value'),
+     Input('grade-select3','value'),
+     Input('trend-select3','value'),
+     Input('pop-select3','value')])
 
 def update_figure(compare_all_list, selected_city, selected_state, selected_grade, selected_trend, selected_pop):
     filtered_df = df.copy()
