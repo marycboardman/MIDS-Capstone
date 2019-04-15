@@ -92,7 +92,8 @@ filters = dbc.Container([
                     dcc.Dropdown(
                         id='pop-select3',
                         options=pop_opts,
-                        value='All'
+                        value='All,
+                        clearable=False
                     )
                 ]),
             ])

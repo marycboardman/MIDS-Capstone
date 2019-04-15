@@ -15,6 +15,10 @@ from metrics.hate_crimes3 import layout as hc_lay3
 
 all_lay = dbc.Container(
     [
+        dbc.Row(hc_lay.explore_layout,
+            no_gutters=True,
+            align='center'
+        ),    
         dbc.Row(
             [
                 dbc.Col([
@@ -27,7 +31,7 @@ all_lay = dbc.Container(
             ],
             no_gutters=True,
             align='center'
-        ),  
+        ),    
         dbc.Row(
             [
                 dbc.Col([
@@ -62,6 +66,7 @@ all_lay = dbc.Container(
 dropdown = dbc.DropdownMenu(
     children=[
         dbc.DropdownMenuItem("Data Exploration Tool", href='/'),
+        dbc.DropdownMenuItem("Abstract", href='/abstract'),
         dbc.DropdownMenuItem("Introduction and Overview", href='/introduction'),
         dbc.DropdownMenuItem("Methodology: Time Series Model", href='/time-series'),
         dbc.DropdownMenuItem("Methodology: Doxing Risk Assessment", href='/doxing-risk'),
@@ -131,22 +136,24 @@ def toggle_navbar_collapse(n, is_open):
 def render_page(pathname):
     if pathname == '/':
         return all_lay
+    elif pathname == '/abstract':
+        return hc_lay.abstract_layout
     elif pathname == '/introduction':
         return hc_lay.intro_layout
     elif pathname == '/time-series':
         return hc_lay.ts_layout
     elif pathname == '/doxing-risk':
-        return all_lay.layout
+        return hc_lay.dox_layout
     elif pathname == '/all-cities':
         return hc_lay.allcities_layout
     elif pathname == '/key-insights':
-        return all_lay.layout
+        return hc_lay.key_layout
     elif pathname == '/recommendations':
-        return all_lay.layout
+        return hc_lay.rec_layout
     elif pathname == '/author-bios':
-        return all_lay.layout
+        return hc_lay.bio_layout
     elif pathname == '/acknowledgements':
-        return all_lay.layout
+        return hc_lay.ack_layout
 
 if __name__ == '__main__':
     application.run(debug=False, port=8080)
